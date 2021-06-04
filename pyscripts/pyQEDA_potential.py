@@ -76,11 +76,14 @@ def displayPotentialFromUg(folder=None, potSize=([256,256]), Ncells=([1,1]),show
 	def displayPotentialFromUgFile(filepath=folder,potSize=potSize,Ncells=Ncells,showImag=showImag,doFlip=doFlip, thresh=thresh, beta=beta):
 		beamfilename = '_BeamList.txt'
 		beamfile = filepath + beamfilename
-		UgReal = np.loadtxt(beamfile,skiprows=1, usecols= range(4, 5)  )
-		UgImag = np.loadtxt(beamfile,skiprows=1, usecols= range(5, 6)  )
-		Ug = np.array(range(UgReal.size), dtype=complex)
-		Ug.real = UgReal
-		Ug.imag = UgImag
+# 		UgReal = np.loadtxt(beamfile,skiprows=1, usecols= range(4, 5)  )
+# 		UgImag = np.loadtxt(beamfile,skiprows=1, usecols= range(5, 6)  )
+        UgFileName = '_UgMasterList.txt'
+		UgFile = filepath + UgFileName
+		Ugimport = np.loadtxt(UgFile,skiprows=1,usecols= range(1, 3))
+		Ug = np.array(range(int(Ugimport.size/2)), dtype=complex)
+		Ug.real = Ugimport[:,0]
+		Ug.imag = Ugimport[:,1]
 		beams = np.asarray(np.loadtxt(beamfile,skiprows=1, usecols= range(1, 4)  ), dtype=int ) 
 		Ugcopy = deepcopy(Ug)	
 		UgList, potMap = displayPotential_2D(Ug,beams,potSize=potSize,Ncells=Ncells,showImag=showImag,doFlip=doFlip, thresh=thresh, beta=beta)		
